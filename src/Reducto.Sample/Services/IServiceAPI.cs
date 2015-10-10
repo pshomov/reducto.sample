@@ -7,6 +7,8 @@ namespace Reducto.Sample
     public class UserInfo {
         public string Username;
         public string HomeCity;
+
+        public static UserInfo NotFound = new UserInfo();
     }
 	public interface IServiceAPI
 	{

@@ -14,6 +14,9 @@ namespace Reducto.Sample
     {
         public string Username;
     }
+    public struct LoginFailed : Action
+    {
+    }
     public class AppStart : Action
     {
     }
@@ -41,6 +44,7 @@ namespace Reducto.Sample
     public class AppStore
     {
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> DeviceListRefreshAction;
+        public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> BootAppAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
         public Store<AppState> WireUpApp(INavigator nav, IServiceAPI serviceAPI)
@@ -74,6 +78,12 @@ namespace Reducto.Sample
                         s.inProgress = true;
                         return s;
                     })
+                .When<LoginFailed>((s, a) => 
+                    {
+                        s.inProgress = false;
+                        s.errMsg = "Wrong username/password or user not found";
+                        return s;
+                    })
                 .When<LoggedIn>((s, a) =>
                     {
                         s.inProgress = false;
@@ -95,10 +105,18 @@ namespace Reducto.Sample
             {
                 dispatch(new LoggingIn {Username = userinfo.Username});
                 var loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
-                dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
-                nav.PushAsync<DeviceListPageViewModel>();
+                if (loggedIn == UserInfo.NotFound){
+                    dispatch(new LoginFailed());                    
+                } else {
+                    dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
+                    nav.PushAsync<DeviceListPageViewModel>();
+                }
             });
-
+            BootAppAction = (disp, getState) => {
+                if (!getState ().LoginPage.LoggedIn)
+                    return nav.PushAsync<LoginPageViewModel> ();
+                return nav.PushAsync<DeviceListPageViewModel> ();
+            };
             return store;
         }
 

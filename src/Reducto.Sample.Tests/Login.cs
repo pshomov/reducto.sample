@@ -20,6 +20,8 @@ namespace Reducto.Sample.Tests
             serviceAPI = Substitute.For<IServiceAPI>();
             serviceAPI.AuthUser("john", "secret")
                 .Returns(Task.FromResult(new UserInfo {Username = "John", HomeCity = "Reykjavik"}));
+            serviceAPI.AuthUser("john", "sdf")
+                .Returns(Task.FromResult(UserInfo.NotFound));
 
             appStore = new AppStore ();
             store = appStore.WireUpApp(nav, serviceAPI);
@@ -35,13 +37,7 @@ namespace Reducto.Sample.Tests
         [Test]
         public async void should_navigate_to_login_viewmode_when_not_logged_in()
         {
-            await store.Dispatch((disp, getState) =>
-                {
-                    if (!getState().LoginPage.LoggedIn)
-                        return nav.PushAsync<LoginPageViewModel>();
-                    return nav.PushAsync<DeviceListPageViewModel>();
-                });
-
+            await store.Dispatch(appStore.BootAppAction);
             nav.Received().PushAsync<LoginPageViewModel>();
         }
             
@@ -56,6 +52,17 @@ namespace Reducto.Sample.Tests
             Assert.That(history.FirstAction(typeof (LoggedIn)).LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = false}));
         }
-       
+
+        [Test]
+        public async void should_provide_error_message_when_login_fails()
+        {
+            await store.Dispatch(appStore.LoginAction(new LoginInfo {Username = "john", Password = "sdf"}));
+
+            Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
+                Is.EqualTo(new LoginPageStore {inProgress = true}));
+            Assert.That(history.FirstAction(typeof (LoginFailed)).LoginPage,
+                Is.EqualTo(new LoginPageStore {inProgress = false, errMsg = "Wrong username/password or user not found"}));
+        }
+
     }
 }
