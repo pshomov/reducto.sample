@@ -15,7 +15,10 @@ namespace Reducto.Sample.Tests
 
         public AppState FirstAction(Type action)
         {
-            return history.Find(a => a.Action.GetType() == action).StateAfter;
+            var loggedAction = history.Find (a => a.Action.GetType () == action);
+            if (loggedAction == null)
+                throw new ArgumentException (string.Format("action {0} was never performed", action));
+            return loggedAction.StateAfter;
         }
         public Middleware<AppState> logger()
         {
