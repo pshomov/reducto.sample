@@ -11,6 +11,7 @@ namespace Reducto.Sample.Tests
     [TestFixture]
     public class LoginTest
     {
+
         [SetUp]
         public void SetUp()
         {
@@ -30,7 +31,6 @@ namespace Reducto.Sample.Tests
         private AppStore appStore;       
         private Store<AppState> store;
         private Logger<AppState> history = new Logger<AppState>();
-
 
         [Test]
         public async void should_navigate_to_login_viewmode_when_not_logged_in()

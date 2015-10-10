@@ -30,17 +30,19 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Reducto.Sample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DeviceDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\DeviceListPageViewModel.cs" />
     <Compile Include="Infrastructure\ViewModel.cs" />
     <Compile Include="ViewModels\DeviceSummary.cs" />
-    <Compile Include="AppState.cs" />
-    <Compile Include="DeviceInfo.cs" />
     <Compile Include="Services\INavigator.cs" />
     <Compile Include="Services\IServiceAPI.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="Infrastructure\StoreActionCommand.cs" />
+    <Compile Include="Infrastructure\StoreMVVMExtensions.cs" />
+    <Compile Include="App\App.cs" />
+    <Compile Include="App\AppState.cs" />
+    <Compile Include="App\DeviceInfo.cs" />
     <Compile Include="App.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
@@ -66,5 +68,6 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="Services\" />
+    <Folder Include="App\" />
   </ItemGroup>
 </Project>

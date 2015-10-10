@@ -36,7 +36,7 @@ namespace Reducto.Sample
 
         private INavigator nav;
         private IServiceAPI serviceAPI;
-        AppStore appStore;
+        private AppStore appStore;
         private Store<AppState> store;
         private Logger<AppState> history = new Logger<AppState>();
 
