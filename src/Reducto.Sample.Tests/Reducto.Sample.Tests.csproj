@@ -30,7 +30,13 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Reducto">
+      <HintPath>..\..\packages\Reducto.0.9.0\lib\portable-net45+win+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\Reducto.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>..\..\packages\NSubstitute.1.9.1.0\lib\net45\NSubstitute.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -39,5 +45,11 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reducto.Sample\Reducto.Sample.csproj">
+      <Project>{2394B3DD-9C61-4799-BDDC-4C634CE10381}</Project>
+      <Name>Reducto.Sample</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

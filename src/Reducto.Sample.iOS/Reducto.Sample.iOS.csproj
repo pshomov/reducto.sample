@@ -79,7 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Reducto.Sample.csproj">
+    <ProjectReference Include="..\Reducto.Sample\Reducto.Sample.csproj">
       <Project>{2394B3DD-9C61-4799-BDDC-4C634CE10381}</Project>
       <Name>Reducto.Sample</Name>
     </ProjectReference>
