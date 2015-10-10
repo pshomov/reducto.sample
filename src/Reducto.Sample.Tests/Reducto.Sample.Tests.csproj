@@ -40,7 +40,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
+    <Compile Include="Login.cs" />
+    <Compile Include="DeviceList.cs" />
+    <Compile Include="Infrastructure\Helpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -51,5 +53,8 @@
       <Project>{2394B3DD-9C61-4799-BDDC-4C634CE10381}</Project>
       <Name>Reducto.Sample</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 </Project>
