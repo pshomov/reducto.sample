@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+#pragma warning disable 4014 1998
+
 namespace Reducto.Sample
 {
     public struct LoggedIn : Action
@@ -14,9 +16,11 @@ namespace Reducto.Sample
     {
         public string Username;
     }
+
     public struct LoginFailed : Action
     {
     }
+
     public class AppStart : Action
     {
     }
@@ -47,52 +51,47 @@ namespace Reducto.Sample
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> BootAppAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
+        static SimpleReducer<LoginPageStore> LoginPageReducer ()
+        {
+            return new SimpleReducer<LoginPageStore> ().When<LoggingIn> ((s, a) =>  {
+                s.inProgress = true;
+                return s;
+            }).When<LoginFailed> ((s, a) =>  {
+                s.inProgress = false;
+                s.errMsg = "Wrong username/password or user not found";
+                return s;
+            }).When<LoggedIn> ((s, a) =>  {
+                s.inProgress = false;
+                return s;
+            });
+        }
+
+        static SimpleReducer<DeviceListPageStore> DeviceListReducer ()
+        {
+            return new SimpleReducer<DeviceListPageStore> (() => new DeviceListPageStore {
+                Devices = new List<DeviceInfo> (),
+                Error = "",
+                SelectedDeviceIndex = -1,
+                inProgress = false
+            }).When<DeviceListRefreshStarted> ((state, action) =>  {
+                state.Devices = new List<DeviceInfo> ();
+                state.inProgress = true;
+                return state;
+            }).When<DeviceSelectedAction> ((s, a) =>  {
+                s.SelectedDeviceIndex = 1;
+                return s;
+            }).When<DeviceListRefreshFinished> ((state, action) =>  {
+                state.Devices = new List<DeviceInfo> (action.Devices);
+                state.inProgress = false;
+                return state;
+            });
+        }
+
         public Store<AppState> WireUpApp(INavigator nav, IServiceAPI serviceAPI)
         {
-            var deviceList = new SimpleReducer<DeviceListPageStore>(
-                () => new DeviceListPageStore
-                {
-                    Devices = new List<DeviceInfo>(),
-                    Error = "",
-                    SelectedDeviceIndex = -1,
-                    inProgress = false
-                })
-                .When<DeviceListRefreshStarted>((state, action) =>
-                    {
-                        state.Devices = new List<DeviceInfo>();
-                        state.inProgress = true;
-                        return state;
-                    })
-                .When<DeviceSelectedAction>((s, a) => {
-                    s.SelectedDeviceIndex = 1;
-                    return s;
-                })
-                .When<DeviceListRefreshFinished>((state, action) => {
-                    state.Devices = new List<DeviceInfo>(action.Devices);
-                    state.inProgress = false;
-                    return state;
-                });
-            var loginReducer = new SimpleReducer<LoginPageStore>()
-                .When<LoggingIn>((s, a) =>
-                    {
-                        s.inProgress = true;
-                        return s;
-                    })
-                .When<LoginFailed>((s, a) => 
-                    {
-                        s.inProgress = false;
-                        s.errMsg = "Wrong username/password or user not found";
-                        return s;
-                    })
-                .When<LoggedIn>((s, a) =>
-                    {
-                        s.inProgress = false;
-                        return s;
-                    });
-            
             var reducer = new CompositeReducer<AppState>()
-                .Part(s => s.DevicePage, deviceList)
-                .Part(s => s.LoginPage, loginReducer);
+                .Part(s => s.DevicePage, DeviceListReducer ())
+                .Part(s => s.LoginPage, LoginPageReducer ());
 
             var store = new Store<AppState>(reducer);
             DeviceListRefreshAction = async (dispatch, getState) =>

@@ -40,21 +40,6 @@ namespace Reducto.Sample
         private Store<AppState> store;
         private Logger<AppState> history = new Logger<AppState>();
 
-
-        [Test]
-        public async void should_navigate_to_login_viewmode_when_not_logged_in()
-        {
-            await store.Dispatch((disp, getState) =>
-                {
-                    if (!getState().LoginPage.LoggedIn)
-                        return nav.PushAsync<LoginPageViewModel>();
-                    return nav.PushAsync<DeviceListPageViewModel>();
-                });
-
-            nav.Received().PushAsync<LoginPageViewModel>();
-        }
-
-
         [Test]
         public async void should_retrieve_device_list_when_device_refresh_is_requested()
         {
