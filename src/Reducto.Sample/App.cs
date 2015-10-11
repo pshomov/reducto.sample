@@ -1,6 +1,8 @@
 ﻿using System;
 
 using Xamarin.Forms;
+using Reducto.Sample.ViewModels;
+using Reducto.Sample.Views;
 
 namespace Reducto.Sample
 {
@@ -9,17 +11,7 @@ namespace Reducto.Sample
         public App ()
         {
             // The root page of your application
-            MainPage = new ContentPage {
-                Content = new StackLayout {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            XAlign = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+            MainPage = new LoginPageViewModel().Page;
         }
 
         protected override void OnStart ()

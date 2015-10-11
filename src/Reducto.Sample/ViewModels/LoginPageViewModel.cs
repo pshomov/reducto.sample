@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Reducto.Sample
+namespace Reducto.Sample.ViewModels
 {
     public class LoginPageViewModel : ViewModel
     {
-        public LoginPageViewModel ()
-        {
-        }
+        public String Username { get; set; }
+        public String Password { get; set; }
     }
 }
 

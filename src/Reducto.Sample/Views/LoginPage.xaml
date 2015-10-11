@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Reducto.Sample.Views.LoginPage">
+    <ContentPage.Content>
+    <StackLayout Orientation="Vertical">
+        <Label Text="Username" />
+        <Entry Text="{Binding Username}" />
+        <Label Text="Password" />
+        <Entry Text="{Binding Password}" IsPassword="true" />
+        <BoxView HeightRequest="10"/>
+        <Button Text="Login" />
+    </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

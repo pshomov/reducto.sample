@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Reducto.Sample.ViewModels;
 
 #pragma warning disable 4014 1998
 
