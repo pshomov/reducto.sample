@@ -7,8 +7,9 @@ namespace Reducto.Sample
 {
     public interface INavigator
     {
-        Task PushAsync<Model> () where Model : class;
-        Task PushAsync<Model> (Action<Model> configureModel, List<Type> updateOnEvents) where Model : class;
+        Task PushAsync<Model> () where Model : ViewModel;
+        Task PushAsync<Model> (Action<Model> configureModel, List<Type> updateOnEvents) where Model : ViewModel;
+        Task PopToRootAsync (bool animated);
     }
 }
 

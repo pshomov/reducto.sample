@@ -20,7 +20,7 @@ namespace Reducto.Sample
         public void SetUp()
         {
             nav = Substitute.For<INavigator>();
-            nav.PushAsync<object>().Returns(Task.Delay(0));
+            nav.PushAsync<ViewModel>().Returns(Task.Delay(0));
             serviceAPI = Substitute.For<IServiceAPI>();
             serviceAPI.AuthUser("john", "secret")
                 .Returns(Task.FromResult(new UserInfo {Username = "John", HomeCity = "Reykjavik"}));

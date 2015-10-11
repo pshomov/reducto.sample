@@ -3,15 +3,21 @@
 using Xamarin.Forms;
 using Reducto.Sample.ViewModels;
 using Reducto.Sample.Views;
+using Reducto.Sample.Services;
 
 namespace Reducto.Sample
 {
     public class App : Application
     {
+        AppStore appStore;
+
         public App ()
         {
-            // The root page of your application
-            MainPage = new LoginPageViewModel().Page;
+            appStore = new AppStore();
+            var navigationPage = new NavigationPage (appStore.BootPage().Page);
+            MainPage = navigationPage;
+            var nav = new Navigator (navigationPage.Navigation);
+            appStore.WireUpApp (nav, null);
         }
 
         protected override void OnStart ()

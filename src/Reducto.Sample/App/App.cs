@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Reducto.Sample.ViewModels;
+using Xamarin.Forms;
 
 #pragma warning disable 4014 1998
 
@@ -52,6 +53,23 @@ namespace Reducto.Sample
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> BootAppAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
+        Store<AppState> store;
+
+        public AppStore(){
+            var reducer = new CompositeReducer<AppState>()
+                .Part(s => s.DevicePage, DeviceListReducer ())
+                .Part(s => s.LoginPage, LoginPageReducer ());
+
+            store = new Store<AppState>(reducer);
+        }
+
+        public ViewModel BootPage ()
+        {
+            if (!store.GetState ().LoginPage.LoggedIn)
+                return new LoginPageViewModel();
+            return new DeviceListPageViewModel(store);
+        }
+
         static SimpleReducer<LoginPageStore> LoginPageReducer ()
         {
             return new SimpleReducer<LoginPageStore> ().When<LoggingIn> ((s, a) =>  {
@@ -90,11 +108,6 @@ namespace Reducto.Sample
 
         public Store<AppState> WireUpApp(INavigator nav, IServiceAPI serviceAPI)
         {
-            var reducer = new CompositeReducer<AppState>()
-                .Part(s => s.DevicePage, DeviceListReducer ())
-                .Part(s => s.LoginPage, LoginPageReducer ());
-
-            var store = new Store<AppState>(reducer);
             DeviceListRefreshAction = async (dispatch, getState) =>
             {
                 dispatch(new DeviceListRefreshStarted());
@@ -113,6 +126,7 @@ namespace Reducto.Sample
                 }
             });
             BootAppAction = (disp, getState) => {
+                nav.PopToRootAsync(false);
                 if (!getState ().LoginPage.LoggedIn)
                     return nav.PushAsync<LoginPageViewModel> ();
                 return nav.PushAsync<DeviceListPageViewModel> ();
