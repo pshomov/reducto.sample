@@ -43,6 +43,7 @@
     <Compile Include="Login.cs" />
     <Compile Include="DeviceList.cs" />
     <Compile Include="Infrastructure\Helpers.cs" />
+    <Compile Include="BootPage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

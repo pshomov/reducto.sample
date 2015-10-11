@@ -34,14 +34,7 @@ namespace Reducto.Sample.Tests
         private AppStore appStore;       
         private Store<AppState> store;
         private Logger<AppState> history = new Logger<AppState>();
-
-        [Test]
-        public async void should_navigate_to_login_viewmode_when_not_logged_in()
-        {
-            await store.Dispatch(appStore.BootAppAction);
-            nav.Received().PushAsync<LoginPageViewModel>();
-        }
-            
+                    
         [Test]
         public async void should_perform_login_process_when_provided_username_password_and_navigate_to_device_list_view()
         {

@@ -50,7 +50,6 @@ namespace Reducto.Sample
     public class AppStore
     {
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> DeviceListRefreshAction;
-        public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> BootAppAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
         Store<AppState> store;
@@ -125,12 +124,6 @@ namespace Reducto.Sample
                     nav.PushAsync<DeviceListPageViewModel>();
                 }
             });
-            BootAppAction = (disp, getState) => {
-                nav.PopToRootAsync(false);
-                if (!getState ().LoginPage.LoggedIn)
-                    return nav.PushAsync<LoginPageViewModel> ();
-                return nav.PushAsync<DeviceListPageViewModel> ();
-            };
             return store;
         }
 
