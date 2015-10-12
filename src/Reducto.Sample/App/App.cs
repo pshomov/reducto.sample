@@ -52,21 +52,21 @@ namespace Reducto.Sample
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> DeviceListRefreshAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
-        Store<AppState> store;
+        public Store<AppState> Store { get; private set;}
 
         public AppStore(){
             var reducer = new CompositeReducer<AppState>()
                 .Part(s => s.DevicePage, DeviceListReducer ())
                 .Part(s => s.LoginPage, LoginPageReducer ());
 
-            store = new Store<AppState>(reducer);
+            Store = new Store<AppState>(reducer);
         }
 
         public ViewModel BootPage ()
         {
-            if (!store.GetState ().LoginPage.LoggedIn)
+            if (!Store.GetState ().LoginPage.LoggedIn)
                 return new LoginPageViewModel();
-            return new DeviceListPageViewModel(store);
+            return new DeviceListPageViewModel(Store);
         }
 
         static SimpleReducer<LoginPageStore> LoginPageReducer ()
@@ -80,6 +80,7 @@ namespace Reducto.Sample
                 return s;
             }).When<LoggedIn> ((s, a) =>  {
                 s.inProgress = false;
+                s.LoggedIn = true;
                 return s;
             });
         }
@@ -113,7 +114,7 @@ namespace Reducto.Sample
                 var devices = await serviceAPI.GetDevices();
                 dispatch(new DeviceListRefreshFinished {Devices = devices});
             };
-            LoginAction = store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) =>
+            LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) =>
             {
                 dispatch(new LoggingIn {Username = userinfo.Username});
                 var loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
@@ -124,7 +125,7 @@ namespace Reducto.Sample
                     nav.PushAsync<DeviceListPageViewModel>();
                 }
             });
-            return store;
+            return Store;
         }
 
     }

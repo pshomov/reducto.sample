@@ -44,7 +44,7 @@ namespace Reducto.Sample.Tests
             Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = true}));
             Assert.That(history.FirstAction(typeof (LoggedIn)).LoginPage,
-                Is.EqualTo(new LoginPageStore {inProgress = false}));
+                Is.EqualTo(new LoginPageStore {inProgress = false, LoggedIn = true}));
         }
 
         [Test]
