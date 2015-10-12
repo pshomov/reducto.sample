@@ -30,7 +30,8 @@ namespace Reducto.Sample
                 }));
 
             app = new App ();
-            store = app.WireUpApp(nav, serviceAPI);
+            app.SetupAsyncActions(nav, serviceAPI);
+            store = app.Store;
             store.Middleware(history.logger());
         }
 

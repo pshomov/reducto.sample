@@ -106,7 +106,7 @@ namespace Reducto.Sample
             });
         }
 
-        public Store<AppState> WireUpApp(INavigator nav, IServiceAPI serviceAPI)
+        public void SetupAsyncActions(INavigator nav, IServiceAPI serviceAPI)
         {
             DeviceListRefreshAction = async (dispatch, getState) =>
             {
@@ -125,7 +125,6 @@ namespace Reducto.Sample
                     nav.PushAsync<DeviceListPageViewModel>();
                 }
             });
-            return Store;
         }
 
     }
