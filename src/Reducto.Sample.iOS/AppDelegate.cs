@@ -14,7 +14,7 @@ namespace Reducto.Sample.iOS
         {
             global::Xamarin.Forms.Forms.Init ();
 
-            LoadApplication (new App ());
+            LoadApplication (new XamarinApp ());
 
             return base.FinishedLaunching (app, options);
         }
