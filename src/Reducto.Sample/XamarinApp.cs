@@ -7,17 +7,17 @@ using Reducto.Sample.Services;
 
 namespace Reducto.Sample
 {
-    public class App : Application
+    public class XamarinApp : Application
     {
-        AppStore appStore;
+        App app;
 
-        public App ()
+        public XamarinApp ()
         {
-            appStore = new AppStore();
-            var navigationPage = new NavigationPage (appStore.BootPage().Page);
+            app = new App();
+            var navigationPage = new NavigationPage (app.BootPage().Page);
             MainPage = navigationPage;
             var nav = new Navigator (navigationPage.Navigation);
-            appStore.WireUpApp (nav, null);
+            app.WireUpApp (nav, null);
         }
 
         protected override void OnStart ()

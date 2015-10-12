@@ -11,23 +11,23 @@ namespace Reducto.Sample.Tests
         [SetUp]
         public void SetUp()
         {
-            appStore = new AppStore ();
+            app = new App ();
         }
 
-        private AppStore appStore;       
+        private App app;       
 
         [Test]
         public void should_navigate_to_login_viewmodel_when_not_logged_in()
         {
-            Assert.That (appStore.BootPage (), Is.TypeOf<LoginPageViewModel> ());
+            Assert.That (app.BootPage (), Is.TypeOf<LoginPageViewModel> ());
         }
 
         [Test]
         public void should_navigate_to_device_list_viewmodel_when_logged_in()
         {
-            appStore.Store.Dispatch (new LoggingIn{Username = "John"});
-            appStore.Store.Dispatch (new LoggedIn{Username = "John"});
-            Assert.That (appStore.BootPage (), Is.TypeOf<DeviceListPageViewModel>());
+            app.Store.Dispatch (new LoggingIn{Username = "John"});
+            app.Store.Dispatch (new LoggedIn{Username = "John"});
+            Assert.That (app.BootPage (), Is.TypeOf<DeviceListPageViewModel>());
         }
     }
 }

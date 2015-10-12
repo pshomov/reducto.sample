@@ -24,21 +24,21 @@ namespace Reducto.Sample.Tests
             serviceAPI.AuthUser("john", "sdf")
                 .Returns(Task.FromResult(UserInfo.NotFound));
 
-            appStore = new AppStore ();
-            store = appStore.WireUpApp(nav, serviceAPI);
+            app = new App ();
+            store = app.WireUpApp(nav, serviceAPI);
             store.Middleware(history.logger());
         }
 
         private INavigator nav;
         private IServiceAPI serviceAPI;
-        private AppStore appStore;       
+        private App app;       
         private Store<AppState> store;
         private Logger<AppState> history = new Logger<AppState>();
                     
         [Test]
         public async void should_perform_login_process_when_provided_username_password_and_navigate_to_device_list_view()
         {
-            await store.Dispatch(appStore.LoginAction(new LoginInfo {Username = "john", Password = "secret"}));
+            await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "secret"}));
 
             nav.Received().PushAsync<DeviceListPageViewModel>();
             Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
@@ -50,7 +50,7 @@ namespace Reducto.Sample.Tests
         [Test]
         public async void should_provide_error_message_when_login_fails()
         {
-            await store.Dispatch(appStore.LoginAction(new LoginInfo {Username = "john", Password = "sdf"}));
+            await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "sdf"}));
 
             Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = true}));

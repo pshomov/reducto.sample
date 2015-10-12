@@ -47,14 +47,14 @@ namespace Reducto.Sample
         public string Username;
     }
 
-    public class AppStore
+    public class App
     {
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> DeviceListRefreshAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
         public Store<AppState> Store { get; private set;}
 
-        public AppStore(){
+        public App(){
             var reducer = new CompositeReducer<AppState>()
                 .Part(s => s.DevicePage, DeviceListReducer ())
                 .Part(s => s.LoginPage, LoginPageReducer ());
