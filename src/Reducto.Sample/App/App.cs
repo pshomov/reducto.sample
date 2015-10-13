@@ -65,7 +65,7 @@ namespace Reducto.Sample
         public ViewModel BootPage ()
         {
             if (!Store.GetState ().LoginPage.LoggedIn)
-                return new LoginPageViewModel();
+                return new LoginPageViewModel(this);
             return new DeviceListPageViewModel(Store);
         }
 

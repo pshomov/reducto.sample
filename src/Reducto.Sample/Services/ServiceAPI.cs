@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Reducto.Sample.Services
 {
@@ -8,9 +9,10 @@ namespace Reducto.Sample.Services
         {
             throw new NotImplementedException ();
         }
-        public System.Threading.Tasks.Task<UserInfo> AuthUser (string username, string password)
+        public async System.Threading.Tasks.Task<UserInfo> AuthUser (string username, string password)
         {
-            throw new NotImplementedException ();
+            await Task.Delay(5000);
+            return new UserInfo{Username = username, HomeCity = "Reykjavik"};
         }
     }
 }

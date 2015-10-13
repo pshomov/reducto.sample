@@ -17,7 +17,7 @@ namespace Reducto.Sample
             var navigationPage = new NavigationPage (app.BootPage().Page);
             MainPage = navigationPage;
             var nav = new Navigator (navigationPage.Navigation);
-            app.SetupAsyncActions (nav, null);
+            app.SetupAsyncActions (nav, new ServiceAPI());
         }
 
         protected override void OnStart ()
