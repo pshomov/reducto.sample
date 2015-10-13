@@ -56,7 +56,7 @@ namespace Reducto.Sample.Tests
             Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = true}));
             Assert.That(history.FirstAction(typeof (LoginFailed)).LoginPage,
-                Is.EqualTo(new LoginPageStore {inProgress = false, errMsg = "Wrong username/password or user not found"}));
+                Is.EqualTo(new LoginPageStore {inProgress = false, LoggedIn = false, errMsg = "Wrong username/password or user not found"}));
         }
 
     }
