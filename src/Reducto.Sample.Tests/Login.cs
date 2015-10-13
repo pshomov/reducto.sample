@@ -41,7 +41,7 @@ namespace Reducto.Sample.Tests
         {
             await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "secret"}));
 
-            nav.Received().PushAsync<DeviceListPageViewModel>();
+            nav.Received().PushAsync<DeviceListPageViewModel>(Arg.Any<Func<DeviceListPageViewModel>>());
             Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = true}));
             Assert.That(history.FirstAction(typeof (LoggedIn)).LoginPage,

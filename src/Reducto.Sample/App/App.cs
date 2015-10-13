@@ -122,7 +122,7 @@ namespace Reducto.Sample
                     dispatch(new LoginFailed());                    
                 } else {
                     dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
-                    nav.PushAsync<DeviceListPageViewModel>();
+                    nav.PushAsync(() => new DeviceListPageViewModel(Store));
                 }
             });
         }

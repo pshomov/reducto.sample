@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Reducto.Sample
+namespace Reducto.Sample.ViewModels
 {
     public class DeviceListPageViewModel : ViewModel
     {

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using NSubstitute;
 using Reducto.Sample.Tests;
+using Reducto.Sample.ViewModels;
 
 #pragma warning disable 4014 1998
 

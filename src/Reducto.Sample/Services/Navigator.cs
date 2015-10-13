@@ -22,9 +22,9 @@ namespace Reducto.Sample.Services
             ViewModel vm = (ViewModel)Activator.CreateInstance (typeof(Model));
             return navigation.PushAsync (vm.Page);
         }
-        public System.Threading.Tasks.Task PushAsync<Model> (Action<Model> configureModel, System.Collections.Generic.List<Type> updateOnEvents) where Model : ViewModel
+        public System.Threading.Tasks.Task PushAsync<Model> (Func<Model> configureModel) where Model : ViewModel
         {
-            throw new NotImplementedException ();
+            return navigation.PushAsync (configureModel ().Page);
         }
     }
 }
