@@ -10,7 +10,7 @@ using Reducto.Sample.ViewModels;
 
 namespace Reducto.Sample
 {
-    public class UnhandledAction : Action
+    public class UnhandledAction
     {
     }
 

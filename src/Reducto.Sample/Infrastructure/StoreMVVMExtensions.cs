@@ -8,7 +8,7 @@ namespace Reducto.Sample
 {
 
     public static class StoreMVVMExtensions {
-        public static ICommand createActionCommand<State>(this Store<State> store, Func<Action> actionMaker) where State : new() {
+        public static ICommand createActionCommand<State>(this Store<State> store, Func<Object> actionMaker) {
             return new StoreActionCommand<State> (store, actionMaker);
         }
     }

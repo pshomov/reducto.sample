@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace Reducto.Sample
 {
     
-    public class StoreActionCommand<State> : ICommand where State : new(){
+    public class StoreActionCommand<State> : ICommand {
         Store<State> store;
 
-        Func<Action> execute;
+        Func<Object> execute;
 
-        public StoreActionCommand (Store<State> store, Func<Action> execute)
+        public StoreActionCommand (Store<State> store, Func<Object> execute)
         {
             this.execute = execute;
             this.store = store;

@@ -5,7 +5,7 @@ namespace Reducto.Sample.Tests
 {
     public class LoggedAction<S>
     {
-        public Action Action;
+        public Object Action;
         public S StateAfter;
     }
 

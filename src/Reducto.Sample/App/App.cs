@@ -8,35 +8,35 @@ using Xamarin.Forms;
 
 namespace Reducto.Sample
 {
-    public struct LoggedIn : Action
+    public struct LoggedIn
     {
         public string City;
         public string Username;
     }
 
-    public struct LoggingIn : Action
+    public struct LoggingIn
     {
         public string Username;
     }
 
-    public struct LoginFailed : Action
+    public struct LoginFailed
     {
     }
 
-    public class AppStart : Action
+    public class AppStart
     {
     }
 
-    public class DeviceListRefreshStarted : Action
+    public class DeviceListRefreshStarted
     {
     }
 
-    public class DeviceSelectedAction : Action 
+    public class DeviceSelectedAction
     {
         public string deviceId;
     }
 
-    public class DeviceListRefreshFinished : Action
+    public class DeviceListRefreshFinished
     {
         public List<DeviceInfo> Devices;
     }
