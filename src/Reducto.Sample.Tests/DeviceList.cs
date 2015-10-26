@@ -48,8 +48,8 @@ namespace Reducto.Sample
             await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "secret"}));
             await store.Dispatch(app.DeviceListRefreshAction);
 
-            Assert.That(history.FirstAction(typeof (DeviceListRefreshStarted)).DevicePage.inProgress, Is.EqualTo(true));
-            Assert.That(history.FirstAction(typeof (DeviceListRefreshFinished)).DevicePage.Devices,
+            Assert.That(history.FirstAction<DeviceListRefreshFinished>().DevicePage.inProgress, Is.EqualTo(true));
+            Assert.That(history.FirstAction<DeviceListRefreshFinished>().DevicePage.Devices,
                 Is.EquivalentTo(new List<DeviceInfo>
                     {
                         new DeviceInfo {Id = new DeviceId("1"), Name = "D1", Online = true}

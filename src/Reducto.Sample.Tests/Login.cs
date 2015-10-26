@@ -42,9 +42,9 @@ namespace Reducto.Sample.Tests
             await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "secret"}));
 
             nav.Received().PushAsync<DeviceListPageViewModel>(Arg.Any<Func<DeviceListPageViewModel>>());
-            Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
+            Assert.That(history.FirstAction<LoggingIn>().LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = true}));
-            Assert.That(history.FirstAction(typeof (LoggedIn)).LoginPage,
+            Assert.That(history.FirstAction<LoggedIn>().LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = false, LoggedIn = true}));
         }
 
@@ -53,9 +53,9 @@ namespace Reducto.Sample.Tests
         {
             await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "sdf"}));
 
-            Assert.That(history.FirstAction(typeof (LoggingIn)).LoginPage,
+            Assert.That(history.FirstAction<LoggingIn>().LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = true}));
-            Assert.That(history.FirstAction(typeof (LoginFailed)).LoginPage,
+            Assert.That(history.FirstAction<LoginFailed>().LoginPage,
                 Is.EqualTo(new LoginPageStore {inProgress = false, LoggedIn = false, errMsg = "Wrong username/password or user not found"}));
         }
 

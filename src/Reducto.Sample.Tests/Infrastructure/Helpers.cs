@@ -13,8 +13,9 @@ namespace Reducto.Sample.Tests
     {
         private readonly List<LoggedAction<AppState>> history = new List<LoggedAction<AppState>>();
 
-        public AppState FirstAction(Type action)
+        public AppState FirstAction<Action>()
         {
+            Type action = typeof(Action);
             var loggedAction = history.Find (a => a.Action.GetType () == action);
             if (loggedAction == null)
                 throw new ArgumentException (string.Format("action {0} was never performed", action));
