@@ -32,7 +32,7 @@ namespace Reducto.Sample
         }
     }
     
-    public class StoreAsyncActionCommand<State> : ICommand where State : new(){
+    public class StoreAsyncActionCommand<State> : ICommand {
         Store<State> store;
 
         Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action;

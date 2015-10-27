@@ -11,6 +11,7 @@ namespace Reducto.Sample.ViewModels
         public ObservableCollection<DeviceSummary> Devices { get; set;}
         public Boolean Pulling { get; set;}
         public ICommand Clicked;
+        public ICommand RefreshList { get; private set;}
 
         App app;
 
@@ -20,6 +21,7 @@ namespace Reducto.Sample.ViewModels
             Devices = new ObservableCollection<DeviceSummary>();
 
             Clicked = app.Store.createActionCommand (() => new DeviceSelectedAction{ });
+            RefreshList = app.Store.createAsyncActionCommand (() => app.DeviceListRefreshAction);
             app.Store.Subscribe ((s) => {
                 Pulling = s.DevicePage.inProgress;
                 Devices.Clear();
