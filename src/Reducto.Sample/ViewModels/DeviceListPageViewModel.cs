@@ -12,13 +12,27 @@ namespace Reducto.Sample.ViewModels
         public Boolean Pulling { get; set;}
         public ICommand Clicked;
 
-        public DeviceListPageViewModel (Store<AppState> store)
+        App app;
+
+        public DeviceListPageViewModel (App app)
         {
-            Clicked = store.createActionCommand(() => new DeviceSelectedAction{});
-            store.Subscribe ((s) => {
+            this.app = app;
+            Devices = new ObservableCollection<DeviceSummary>();
+
+            Clicked = app.Store.createActionCommand (() => new DeviceSelectedAction{ });
+            app.Store.Subscribe ((s) => {
                 Pulling = s.DevicePage.inProgress;
-                Devices = new ObservableCollection<DeviceSummary>(s.DevicePage.Devices.Select(d => new DeviceSummary{Name = d.Name, Location = d.Location}));
+                Devices.Clear();
+                foreach (var item in s.DevicePage.Devices.Select(d => new DeviceSummary{Name = d.Name, Location = d.Location})) {
+                    Devices.Add(new DeviceSummary{Name = item.Name});
+                }
             });
+        }
+
+        public override void Init ()
+        {
+            app.Store.Dispatch (new {});
+            app.Store.Dispatch (app.DeviceListRefreshAction);
         }
     }
 }

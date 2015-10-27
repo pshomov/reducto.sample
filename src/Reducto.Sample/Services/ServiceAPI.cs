@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Reducto.Sample.Services
 {
     public class ServiceAPI : IServiceAPI
     {
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<DeviceInfo>> GetDevices ()
+        public async System.Threading.Tasks.Task<System.Collections.Generic.List<DeviceInfo>> GetDevices ()
         {
-            throw new NotImplementedException ();
+            return new List<DeviceInfo> (){{new DeviceInfo{Id = new DeviceId("1"), Name= "Device1", Location = "Reykjavik", Online = true}}};
         }
         public async System.Threading.Tasks.Task<UserInfo> AuthUser (string username, string password)
         {
-            await Task.Delay(5000);
             return new UserInfo{Username = username, HomeCity = "Reykjavik"};
         }
     }

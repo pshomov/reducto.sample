@@ -9,6 +9,7 @@ namespace Reducto.Sample.ViewModels
         public String Password { get; set; }
         public ICommand Login { get; set; }
         public bool InProgress { get; set; }
+        public bool NotInProgress { get {return !InProgress;} }
 
         public LoginPageViewModel (App app)
         {

@@ -3,7 +3,7 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <ActivityIndicator IsRunning="{Binding InProgress}" IsVisible="{Binding InProgress}" />
-            <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Vertical" IsVisible="{Binding NotInProgress}">
                 <Label Text="Username" />
                 <Entry Text="{Binding Username}" />
                 <Label Text="Password" />

@@ -20,6 +20,7 @@ namespace Reducto.Sample.Services
         public System.Threading.Tasks.Task PushAsync<Model> () where Model : ViewModel
         {
             ViewModel vm = (ViewModel)Activator.CreateInstance (typeof(Model));
+            vm.Init ();
             return navigation.PushAsync (vm.Page);
         }
         public System.Threading.Tasks.Task PushAsync<Model> (Func<Model> configureModel) where Model : ViewModel

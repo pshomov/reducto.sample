@@ -29,6 +29,8 @@ namespace Reducto.Sample
 
             return viewType;
         }
+
+        public virtual void Init(){}
     }
     
 }

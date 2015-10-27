@@ -66,7 +66,7 @@ namespace Reducto.Sample
         {
             if (!Store.GetState ().LoginPage.LoggedIn)
                 return new LoginPageViewModel(this);
-            return new DeviceListPageViewModel(Store);
+            return new DeviceListPageViewModel(this);
         }
 
         static SimpleReducer<LoginPageStore> LoginPageReducer ()
@@ -122,7 +122,7 @@ namespace Reducto.Sample
                     dispatch(new LoginFailed());                    
                 } else {
                     dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
-                    nav.PushAsync(() => new DeviceListPageViewModel(Store));
+                    nav.PushAsync(() => new DeviceListPageViewModel(this));
                 }
             });
         }
