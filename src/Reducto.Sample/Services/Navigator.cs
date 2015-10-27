@@ -25,7 +25,9 @@ namespace Reducto.Sample.Services
         }
         public System.Threading.Tasks.Task PushAsync<Model> (Func<Model> configureModel) where Model : ViewModel
         {
-            return navigation.PushAsync (configureModel ().Page);
+            var model = configureModel ();
+            model.Init ();
+            return navigation.PushAsync (model.Page);
         }
     }
 }

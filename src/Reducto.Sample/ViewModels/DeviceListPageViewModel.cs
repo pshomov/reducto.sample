@@ -24,7 +24,7 @@ namespace Reducto.Sample.ViewModels
                 Pulling = s.DevicePage.inProgress;
                 Devices.Clear();
                 foreach (var item in s.DevicePage.Devices.Select(d => new DeviceSummary{Name = d.Name, Location = d.Location})) {
-                    Devices.Add(new DeviceSummary{Name = item.Name});
+                    Devices.Add(item);
                 }
             });
         }

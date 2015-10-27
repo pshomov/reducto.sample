@@ -4,9 +4,7 @@
         <ListView ItemsSource="{Binding Devices}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                            <Label Text="{Binding Name}" />
-                    </ViewCell>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Location}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
