@@ -123,6 +123,7 @@ namespace Reducto.Sample
                 } else {
                     dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
                     nav.PushAsync(() => new DeviceListPageViewModel(this));
+                    DeviceListRefreshAction(dispatch, getState);
                 }
             });
         }

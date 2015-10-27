@@ -30,12 +30,6 @@ namespace Reducto.Sample.ViewModels
                 }
             });
         }
-
-        public override void Init ()
-        {
-            app.Store.Dispatch (new {});
-            app.Store.Dispatch (app.DeviceListRefreshAction);
-        }
     }
 }
 
