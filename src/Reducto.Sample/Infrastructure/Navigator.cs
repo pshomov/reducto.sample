@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace Reducto.Sample.Services
+namespace Reducto.Sample
 {
     public class Navigator : INavigator
     {
