@@ -33,7 +33,7 @@ namespace Reducto.Sample
 
     public class DeviceSelectedAction
     {
-        public string deviceId;
+        public DeviceId deviceId;
     }
 
     public class DeviceListRefreshFinished
