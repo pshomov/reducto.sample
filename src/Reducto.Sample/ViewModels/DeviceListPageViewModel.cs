@@ -20,16 +20,17 @@ namespace Reducto.Sample.ViewModels
             this.app = app;
             Devices = new ObservableCollection<DeviceSummary>();
 
-            Clicked = app.Store.createActionCommand (() => new DeviceSelectedAction{ });
+            Clicked = app.Store.createActionCommand ((DeviceSummary device) => new DeviceSelectedAction{ deviceId = device.Id});
             RefreshList = app.Store.createAsyncActionCommand (() => app.DeviceListRefreshAction);
             app.Store.Subscribe ((s) => {
                 Pulling = s.DevicePage.inProgress;
                 Devices.Clear();
-                foreach (var item in s.DevicePage.Devices.Select(d => new DeviceSummary{Name = d.Name, Location = d.Location})) {
+                foreach (var item in s.DevicePage.Devices.Select(d => new DeviceSummary{Id = d.Id, Name = d.Name, Location = d.Location})) {
                     Devices.Add(item);
                 }
             });
         }
+
     }
 }
 

@@ -31,7 +31,31 @@ namespace Reducto.Sample
             store.Dispatch (execute ());
         }
     }
-    
+
+    public class StoreActionCommand<State, T> : ICommand {
+        Store<State> store;
+
+        Func<T, Object> execute;
+
+        public StoreActionCommand (Store<State> store, Func<T, Object> execute)
+        {
+            this.execute = execute;
+            this.store = store;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute (object parameter)
+        {
+            return true;
+        }
+
+        public void Execute (object parameter)
+        {
+            store.Dispatch (execute ((T)parameter));
+        }
+    }
+
     public class StoreAsyncActionCommand<State> : ICommand {
         Store<State> store;
 
