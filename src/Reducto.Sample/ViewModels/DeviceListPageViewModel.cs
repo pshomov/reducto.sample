@@ -13,11 +13,8 @@ namespace Reducto.Sample.ViewModels
         public ICommand Clicked;
         public ICommand RefreshList { get; private set;}
 
-        App app;
-
         public DeviceListPageViewModel (App app)
         {
-            this.app = app;
             Devices = new ObservableCollection<DeviceSummary>();
 
             Clicked = app.Store.createActionCommand ((DeviceSummary device) => new DeviceSelectedAction{ deviceId = device.Id});
