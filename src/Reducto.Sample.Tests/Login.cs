@@ -23,6 +23,7 @@ namespace Reducto.Sample.Tests
                 .Returns(Task.FromResult(new UserInfo {Username = "John", HomeCity = "Reykjavik"}));
             serviceAPI.AuthUser("john", "sdf")
                 .Returns(Task.FromResult(UserInfo.NotFound));
+            serviceAPI.GetDevices().Returns(Task.FromResult(new List<DeviceInfo>()));
 
             app = new App ();
             app.SetupAsyncActions(nav, serviceAPI);

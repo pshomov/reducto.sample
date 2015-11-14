@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Reducto.Sample
 {
-    public class DeviceId {
-        public string Id { get; protected set;}
+    public struct DeviceId {
+        public string Id { get; private set;}
         public DeviceId (string id)
         {
             Id = id;

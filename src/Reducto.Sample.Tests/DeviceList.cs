@@ -46,7 +46,6 @@ namespace Reducto.Sample
         public async void should_retrieve_device_list_when_device_refresh_is_requested()
         {
             await store.Dispatch(app.LoginAction(new LoginInfo {Username = "john", Password = "secret"}));
-            await store.Dispatch(app.DeviceListRefreshAction);
 
             Assert.That(history.FirstAction<DeviceListRefreshStarted>().DevicePage.inProgress, Is.EqualTo(true));
             Assert.That(history.FirstAction<DeviceListRefreshFinished>().DevicePage.Devices,
@@ -58,11 +57,10 @@ namespace Reducto.Sample
 
         [Test]
         public async void should_update_view_model_after_each_action(){
-            await store.Dispatch (app.LoginAction(new LoginInfo{Username = "john", Password = "secret"}));
             var model = new DeviceListPageViewModel (app);
             store.Dispatch (new UnhandledAction ());
             Assert.That (model.Devices.Count, Is.EqualTo (0));
-            await store.Dispatch (app.DeviceListRefreshAction);
+            await store.Dispatch (app.LoginAction(new LoginInfo{Username = "john", Password = "secret"}));
 
             Assert.That(model.Devices.Count, Is.EqualTo(1));
         }
@@ -72,7 +70,7 @@ namespace Reducto.Sample
             await store.Dispatch (app.LoginAction(new LoginInfo{Username = "john", Password = "secret"}));
             Assert.That (store.GetState ().DevicePage.SelectedDeviceIndex, Is.EqualTo (-1));
             var model = new DeviceListPageViewModel (app);
-            model.Clicked.Execute (null);
+            model.Clicked.Execute (new DeviceSummary{});
             Assert.That (store.GetState ().DevicePage.SelectedDeviceIndex, Is.EqualTo (1));
         }
 

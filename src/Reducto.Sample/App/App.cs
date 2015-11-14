@@ -31,16 +31,20 @@ namespace Reducto.Sample
     {
     }
 
-    public class DeviceSelectedAction
-    {
-        public DeviceId deviceId;
-    }
-
     public class DeviceListRefreshFinished
     {
         public List<DeviceInfo> Devices;
     }
 
+    public class DeviceListRefreshFailed
+    {
+    }
+
+    public class DeviceSelectedAction
+    {
+        public DeviceId deviceId;
+    }
+        
     public struct LoginInfo
     {
         public string Password;
@@ -111,7 +115,8 @@ namespace Reducto.Sample
             DeviceListRefreshAction = async (dispatch, getState) =>
             {
                 dispatch(new DeviceListRefreshStarted());
-                var devices = await serviceAPI.GetDevices();
+                List<DeviceInfo> devices;
+                devices = await serviceAPI.GetDevices ();
                 dispatch(new DeviceListRefreshFinished {Devices = devices});
             };
             LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) =>
@@ -123,7 +128,7 @@ namespace Reducto.Sample
                 } else {
                     dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
                     nav.PushAsync(() => new DeviceListPageViewModel(this));
-                    DeviceListRefreshAction(dispatch, getState);
+                    await DeviceListRefreshAction(dispatch, getState);
                 }
             });
         }
