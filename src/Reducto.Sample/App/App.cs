@@ -69,24 +69,26 @@ namespace Reducto.Sample
 
         public ViewModel BootPage()
         {
-            if (!Store.GetState().LoginPage.LoggedIn)
+            if (!Store.GetState().LoginPage.LoggedIn) {
                 return new LoginPageViewModel(this);
-            return new DeviceListPageViewModel(this);
+            } else {
+                return new DeviceListPageViewModel(this);
+            }
         }
 
         static SimpleReducer<LoginPageStore> LoginPageReducer()
         {
-            return new SimpleReducer<LoginPageStore>().When<LoggingIn>((s, a) => {
-                s.InProgress = true;
-                return s;
-            }).When<LoginFailed>((s, a) => {
-                s.InProgress = false;
-                s.ErrorMsg = "Wrong username/password or user not found";
-                return s;
-            }).When<LoggedIn>((s, a) => {
-                s.InProgress = false;
-                s.LoggedIn = true;
-                return s;
+            return new SimpleReducer<LoginPageStore>().When<LoggingIn>((state, action) => {
+                state.InProgress = true;
+                return state;
+            }).When<LoginFailed>((state, action) => {
+                state.InProgress = false;
+                state.ErrorMsg = "Wrong username/password or user not found";
+                return state;
+            }).When<LoggedIn>((state, action) => {
+                state.InProgress = false;
+                state.LoggedIn = true;
+                return state;
             });
         }
 
@@ -101,9 +103,9 @@ namespace Reducto.Sample
                 state.Devices = new List<DeviceInfo>();
                 state.InProgress = true;
                 return state;
-            }).When<DeviceSelectedAction>((s, a) => {
-                s.SelectedDeviceIndex = 1;
-                return s;
+            }).When<DeviceSelectedAction>((state, action) => {
+                state.SelectedDeviceIndex = 1;
+                return state;
             }).When<DeviceListRefreshFinished>((state, action) => {
                 state.Devices = new List<DeviceInfo>(action.Devices);
                 state.InProgress = false;
