@@ -134,13 +134,14 @@ namespace Reducto.Sample
                 devices = await serviceAPI.GetDevices();
                 dispatch(new DeviceListRefreshFinished { Devices = devices });
             };
+
             LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) => {
                 dispatch(new LoggingIn { Username = userinfo.Username }); // starting the login process
                 UserInfo loggedIn;
                 try {
                     loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
                 } catch(Exception){
-                    dispatch(new LoginServiceUnavailable()); // error in communicating with the service
+                    dispatch(new LoginServiceUnavailable()); // error communicating with the service
                     return;
                 }
                 if (loggedIn == UserInfo.NotFound) {
