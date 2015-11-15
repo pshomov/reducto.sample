@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace Reducto.Sample
 {
     
-    public class StoreActionCommand<State> : ICommand {
+    public class StoreActionCommand<State> : ICommand
+    {
         Store<State> store;
-
         Func<Object> execute;
 
         public StoreActionCommand (Store<State> store, Func<Object> execute)
@@ -34,9 +34,9 @@ namespace Reducto.Sample
         }
     }
 
-    public class StoreActionCommand<State, T> : ICommand {
-        Store<State> store;
-
+    public class StoreActionCommand<State, T> : ICommand
+    {
+        Store<State> store;      
         Func<T, Object> execute;
 
         public StoreActionCommand (Store<State> store, Func<T, Object> execute)
@@ -58,9 +58,9 @@ namespace Reducto.Sample
         }
     }
 
-    public class StoreAsyncActionCommand<State> : ICommand {
+    public class StoreAsyncActionCommand<State> : ICommand
+    {
         Store<State> store;
-
         Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action;
 
         public StoreAsyncActionCommand (Store<State> store, Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action)

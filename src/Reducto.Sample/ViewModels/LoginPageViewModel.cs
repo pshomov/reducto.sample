@@ -15,7 +15,7 @@ namespace Reducto.Sample.ViewModels
         {
             Login = app.Store.createAsyncActionCommand(() => app.LoginAction(new LoginInfo{Username = Username, Password = Password}));
             app.Store.Subscribe (s => {
-                InProgress = s.LoginPage.inProgress;
+                InProgress = s.LoginPage.InProgress;
             });
         }
     }

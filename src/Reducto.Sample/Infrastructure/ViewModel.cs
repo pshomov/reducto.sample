@@ -9,6 +9,10 @@ namespace Reducto.Sample
 {
     public class ViewModel : INotifyPropertyChanged
     {
+        public virtual void Init ()
+        {
+        }
+
         public Page Page { 
             get {
                 Page view = (Page)Activator.CreateInstance (ViewTypeFromModel ());
@@ -16,9 +20,7 @@ namespace Reducto.Sample
                 return view;
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+            
         private Type ViewTypeFromModel ()
         {
             var model = this.GetType ();
@@ -36,9 +38,8 @@ namespace Reducto.Sample
             return viewType;
         }
 
-        public virtual void Init ()
-        {
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
     }
     
 }

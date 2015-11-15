@@ -4,22 +4,26 @@ using System.Collections.Generic;
 
 namespace Reducto.Sample
 {
-    public struct LoginPageStore {
+    public struct LoginPageStore
+    {
         public bool LoggedIn;
-        public string username;
-        public string errMsg;
-        public bool inProgress;
+        public string Username;
+        public string ErrorMsg;
+        public bool InProgress;
     }
-    public struct DeviceListPageStore {
-        public bool inProgress;
+
+    public struct DeviceListPageStore
+    {
+        public bool InProgress;
         public List<DeviceInfo> Devices;
         public String Error;
         public int SelectedDeviceIndex;
     }
-	public struct AppState
-	{
+
+    public struct AppState
+    {
         public LoginPageStore LoginPage;
         public DeviceListPageStore DevicePage;
-	}
+    }
 
 }

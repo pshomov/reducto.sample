@@ -20,7 +20,7 @@ namespace Reducto.Sample.ViewModels
             Clicked = app.Store.createActionCommand ((DeviceSummary device) => new DeviceSelectedAction{ deviceId = device.Id});
             RefreshList = app.Store.createAsyncActionCommand (() => app.DeviceListRefreshAction);
             app.Store.Subscribe ((s) => {
-                Pulling = s.DevicePage.inProgress;
+                Pulling = s.DevicePage.InProgress;
                 Devices.Clear();
                 foreach (var item in s.DevicePage.Devices.Select(d => new DeviceSummary{Id = d.Id, Name = d.Name, Location = d.Location})) {
                     Devices.Add(item);

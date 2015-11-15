@@ -23,6 +23,7 @@ namespace Reducto.Sample
             vm.Init ();
             return navigation.PushAsync (vm.Page);
         }
+
         public System.Threading.Tasks.Task PushAsync<Model> (Func<Model> configureModel) where Model : ViewModel
         {
             var model = configureModel ();

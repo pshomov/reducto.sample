@@ -76,14 +76,14 @@ namespace Reducto.Sample
         static SimpleReducer<LoginPageStore> LoginPageReducer ()
         {
             return new SimpleReducer<LoginPageStore> ().When<LoggingIn> ((s, a) =>  {
-                s.inProgress = true;
+                s.InProgress = true;
                 return s;
             }).When<LoginFailed> ((s, a) =>  {
-                s.inProgress = false;
-                s.errMsg = "Wrong username/password or user not found";
+                s.InProgress = false;
+                s.ErrorMsg = "Wrong username/password or user not found";
                 return s;
             }).When<LoggedIn> ((s, a) =>  {
-                s.inProgress = false;
+                s.InProgress = false;
                 s.LoggedIn = true;
                 return s;
             });
@@ -95,17 +95,17 @@ namespace Reducto.Sample
                 Devices = new List<DeviceInfo> (),
                 Error = "",
                 SelectedDeviceIndex = -1,
-                inProgress = false
+                InProgress = false
             }).When<DeviceListRefreshStarted> ((state, action) =>  {
                 state.Devices = new List<DeviceInfo> ();
-                state.inProgress = true;
+                state.InProgress = true;
                 return state;
             }).When<DeviceSelectedAction> ((s, a) =>  {
                 s.SelectedDeviceIndex = 1;
                 return s;
             }).When<DeviceListRefreshFinished> ((state, action) =>  {
                 state.Devices = new List<DeviceInfo> (action.Devices);
-                state.inProgress = false;
+                state.InProgress = false;
                 return state;
             });
         }
