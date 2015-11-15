@@ -131,18 +131,18 @@ namespace Reducto.Sample
                 dispatch(new DeviceListRefreshFinished { Devices = devices });
             };
             LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) => {
-                dispatch(new LoggingIn { Username = userinfo.Username });
+                dispatch(new LoggingIn { Username = userinfo.Username }); // starting the login process
                 UserInfo loggedIn;
                 try {
                     loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
                 } catch(Exception){
-                    dispatch(new LoginServiceUnavailable());
+                    dispatch(new LoginServiceUnavailable()); // error in communicating with the service
                     return;
                 }
                 if (loggedIn == UserInfo.NotFound) {
-                    dispatch(new LoginFailed());                    
+                    dispatch(new LoginFailed()); // user/pass did not match
                 } else {
-                    dispatch(new LoggedIn { Username = userinfo.Username, City = loggedIn.HomeCity });
+                    dispatch(new LoggedIn { Username = userinfo.Username, City = loggedIn.HomeCity }); // success
                     nav.PushAsync(() => new DeviceListPageViewModel(this));
                     await DeviceListRefreshAction(dispatch, getState);
                 }
