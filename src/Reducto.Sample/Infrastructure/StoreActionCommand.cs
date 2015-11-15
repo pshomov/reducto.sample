@@ -15,7 +15,7 @@ namespace Reducto.Sample
         Store<State> store;
         Func<Object> execute;
 
-        public StoreActionCommand (Store<State> store, Func<Object> execute)
+        public StoreActionCommand(Store<State> store, Func<Object> execute)
         {
             this.execute = execute;
             this.store = store;
@@ -23,23 +23,23 @@ namespace Reducto.Sample
 
         public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute (object parameter)
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public void Execute (object parameter)
+        public void Execute(object parameter)
         {
-            store.Dispatch (execute ());
+            store.Dispatch(execute());
         }
     }
 
     public class StoreActionCommand<State, T> : ICommand
     {
-        Store<State> store;      
+        Store<State> store;
         Func<T, Object> execute;
 
-        public StoreActionCommand (Store<State> store, Func<T, Object> execute)
+        public StoreActionCommand(Store<State> store, Func<T, Object> execute)
         {
             this.execute = execute;
             this.store = store;
@@ -47,14 +47,14 @@ namespace Reducto.Sample
 
         public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute (object parameter)
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public void Execute (object parameter)
+        public void Execute(object parameter)
         {
-            store.Dispatch (execute ((T)parameter));
+            store.Dispatch(execute((T)parameter));
         }
     }
 
@@ -63,7 +63,7 @@ namespace Reducto.Sample
         Store<State> store;
         Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action;
 
-        public StoreAsyncActionCommand (Store<State> store, Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action)
+        public StoreAsyncActionCommand(Store<State> store, Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action)
         {
             this.action = action;
             this.store = store;
@@ -71,14 +71,14 @@ namespace Reducto.Sample
 
         public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute (object parameter)
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        public void Execute (object parameter)
+        public void Execute(object parameter)
         {
-            store.Dispatch (action ());
+            store.Dispatch(action());
         }
     }
 }

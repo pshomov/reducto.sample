@@ -44,7 +44,7 @@ namespace Reducto.Sample
     {
         public DeviceId deviceId;
     }
-        
+
     public struct LoginInfo
     {
         public string Password;
@@ -56,55 +56,56 @@ namespace Reducto.Sample
         public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> DeviceListRefreshAction;
         public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
 
-        public Store<AppState> Store { get; private set;}
+        public Store<AppState> Store { get; private set; }
 
-        public App(){
+        public App()
+        {
             var reducer = new CompositeReducer<AppState>()
-                .Part(s => s.DevicePage, DeviceListReducer ())
-                .Part(s => s.LoginPage, LoginPageReducer ());
+                .Part(s => s.DevicePage, DeviceListReducer())
+                .Part(s => s.LoginPage, LoginPageReducer());
 
             Store = new Store<AppState>(reducer);
         }
 
-        public ViewModel BootPage ()
+        public ViewModel BootPage()
         {
-            if (!Store.GetState ().LoginPage.LoggedIn)
+            if (!Store.GetState().LoginPage.LoggedIn)
                 return new LoginPageViewModel(this);
             return new DeviceListPageViewModel(this);
         }
 
-        static SimpleReducer<LoginPageStore> LoginPageReducer ()
+        static SimpleReducer<LoginPageStore> LoginPageReducer()
         {
-            return new SimpleReducer<LoginPageStore> ().When<LoggingIn> ((s, a) =>  {
+            return new SimpleReducer<LoginPageStore>().When<LoggingIn>((s, a) => {
                 s.InProgress = true;
                 return s;
-            }).When<LoginFailed> ((s, a) =>  {
+            }).When<LoginFailed>((s, a) => {
                 s.InProgress = false;
                 s.ErrorMsg = "Wrong username/password or user not found";
                 return s;
-            }).When<LoggedIn> ((s, a) =>  {
+            }).When<LoggedIn>((s, a) => {
                 s.InProgress = false;
                 s.LoggedIn = true;
                 return s;
             });
         }
 
-        static SimpleReducer<DeviceListPageStore> DeviceListReducer ()
+        static SimpleReducer<DeviceListPageStore> DeviceListReducer()
         {
-            return new SimpleReducer<DeviceListPageStore> (() => new DeviceListPageStore {
-                Devices = new List<DeviceInfo> (),
+            return new SimpleReducer<DeviceListPageStore>(() => new DeviceListPageStore {
+                Devices = new List<DeviceInfo>(),
                 Error = "",
                 SelectedDeviceIndex = -1,
                 InProgress = false
-            }).When<DeviceListRefreshStarted> ((state, action) =>  {
-                state.Devices = new List<DeviceInfo> ();
+            }).When<DeviceListRefreshStarted>((state, action) => {
+                state.Devices = new List<DeviceInfo>();
                 state.InProgress = true;
                 return state;
-            }).When<DeviceSelectedAction> ((s, a) =>  {
+            }).When<DeviceSelectedAction>((s, a) => {
                 s.SelectedDeviceIndex = 1;
                 return s;
-            }).When<DeviceListRefreshFinished> ((state, action) =>  {
-                state.Devices = new List<DeviceInfo> (action.Devices);
+            }).When<DeviceListRefreshFinished>((state, action) => {
+                state.Devices = new List<DeviceInfo>(action.Devices);
                 state.InProgress = false;
                 return state;
             });
@@ -112,21 +113,19 @@ namespace Reducto.Sample
 
         public void SetupAsyncActions(INavigator nav, IServiceAPI serviceAPI)
         {
-            DeviceListRefreshAction = async (dispatch, getState) =>
-            {
+            DeviceListRefreshAction = async (dispatch, getState) => {
                 dispatch(new DeviceListRefreshStarted());
                 List<DeviceInfo> devices;
-                devices = await serviceAPI.GetDevices ();
-                dispatch(new DeviceListRefreshFinished {Devices = devices});
+                devices = await serviceAPI.GetDevices();
+                dispatch(new DeviceListRefreshFinished { Devices = devices });
             };
-            LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) =>
-            {
-                dispatch(new LoggingIn {Username = userinfo.Username});
+            LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) => {
+                dispatch(new LoggingIn { Username = userinfo.Username });
                 var loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
-                if (loggedIn == UserInfo.NotFound){
+                if (loggedIn == UserInfo.NotFound) {
                     dispatch(new LoginFailed());                    
                 } else {
-                    dispatch(new LoggedIn {Username = userinfo.Username, City = loggedIn.HomeCity});
+                    dispatch(new LoggedIn { Username = userinfo.Username, City = loggedIn.HomeCity });
                     nav.PushAsync(() => new DeviceListPageViewModel(this));
                     await DeviceListRefreshAction(dispatch, getState);
                 }

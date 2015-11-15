@@ -11,26 +11,26 @@ namespace Reducto.Sample
     {
         App app;
 
-        public XamarinApp ()
+        public XamarinApp()
         {
             app = new App();
-            var navigationPage = new NavigationPage (app.BootPage().Page);
+            var navigationPage = new NavigationPage(app.BootPage().Page);
             MainPage = navigationPage;
-            var nav = new Navigator (navigationPage.Navigation);
-            app.SetupAsyncActions (nav, new ServiceAPI());
+            var nav = new Navigator(navigationPage.Navigation);
+            app.SetupAsyncActions(nav, new ServiceAPI());
         }
 
-        protected override void OnStart ()
+        protected override void OnStart()
         {
             // Handle when your app starts
         }
 
-        protected override void OnSleep ()
+        protected override void OnSleep()
         {
             // Handle when your app sleeps
         }
 
-        protected override void OnResume ()
+        protected override void OnResume()
         {
             // Handle when your app resumes
         }

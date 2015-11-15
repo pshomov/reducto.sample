@@ -9,30 +9,30 @@ namespace Reducto.Sample
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        public virtual void Init ()
+        public virtual void Init()
         {
         }
 
         public Page Page { 
             get {
-                Page view = (Page)Activator.CreateInstance (ViewTypeFromModel ());
+                Page view = (Page)Activator.CreateInstance(ViewTypeFromModel());
                 view.BindingContext = this;
                 return view;
             }
         }
-            
-        private Type ViewTypeFromModel ()
+
+        private Type ViewTypeFromModel()
         {
-            var model = this.GetType ();
+            var model = this.GetType();
             var fullName = model.FullName;
-            var nameParts = fullName.Split ('.');
+            var nameParts = fullName.Split('.');
             var modelName = nameParts[nameParts.Length - 1];
-            var viewName = nameParts.Take (nameParts.Count () - 2).Aggregate ("", (acc, next) => {
+            var viewName = nameParts.Take(nameParts.Count() - 2).Aggregate("", (acc, next) => {
                 return acc + next + ".";
-            }) + "Views." + modelName.Replace ("ViewModel", string.Empty);
-            var viewType = Type.GetType (viewName);
+            }) + "Views." + modelName.Replace("ViewModel", string.Empty);
+            var viewType = Type.GetType(viewName);
             if (viewType == null) {
-                throw new Exception ("Cannot find view " + viewName);
+                throw new Exception("Cannot find view " + viewName);
             }
 
             return viewType;
