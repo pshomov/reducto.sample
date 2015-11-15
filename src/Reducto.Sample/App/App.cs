@@ -23,6 +23,10 @@ namespace Reducto.Sample
     {
     }
 
+    public struct LoginServiceUnavailable
+    {
+    }
+
     public class AppStart
     {
     }
@@ -89,6 +93,11 @@ namespace Reducto.Sample
                 state.InProgress = false;
                 state.LoggedIn = true;
                 return state;
+            }).When<LoginServiceUnavailable>((state, action) => {
+                state.InProgress = false;
+                state.LoggedIn = false;
+                state.ErrorMsg = "Service currently unavailable, please try again later";
+                return state;
             });
         }
 
@@ -123,7 +132,13 @@ namespace Reducto.Sample
             };
             LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) => {
                 dispatch(new LoggingIn { Username = userinfo.Username });
-                var loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
+                UserInfo loggedIn;
+                try {
+                    loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
+                } catch(Exception){
+                    dispatch(new LoginServiceUnavailable());
+                    return;
+                }
                 if (loggedIn == UserInfo.NotFound) {
                     dispatch(new LoginFailed());                    
                 } else {

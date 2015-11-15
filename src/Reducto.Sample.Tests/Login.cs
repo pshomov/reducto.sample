@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using NSubstitute;
 using Reducto.Sample.ViewModels;
+using NSubstitute.ExceptionExtensions;
 
 #pragma warning disable 4014 1998
 
@@ -23,6 +24,8 @@ namespace Reducto.Sample.Tests
                 .Returns(Task.FromResult(new UserInfo { Username = "John", HomeCity = "Reykjavik" }));
             serviceAPI.AuthUser("john", "sdf")
                 .Returns(Task.FromResult(UserInfo.NotFound));
+            serviceAPI.AuthUser("john", "oh-noes")
+                .Throws(new NullReferenceException());
             serviceAPI.GetDevices().Returns(Task.FromResult(new List<DeviceInfo>()));
 
             app = new App();
@@ -61,6 +64,21 @@ namespace Reducto.Sample.Tests
                     InProgress = false,
                     LoggedIn = false,
                     ErrorMsg = "Wrong username/password or user not found"
+                }));
+        }
+
+        [Test]
+        public async void should_provide_error_message_when_login_service_fails()
+        {
+            await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "oh-noes" }));
+
+            Assert.That(history.FirstAction<LoggingIn>().LoginPage,
+                Is.EqualTo(new LoginPageStore { InProgress = true }));
+            Assert.That(history.FirstAction<LoginServiceUnavailable>().LoginPage,
+                Is.EqualTo(new LoginPageStore {
+                    InProgress = false,
+                    LoggedIn = false,
+                    ErrorMsg = "Service currently unavailable, please try again later"
                 }));
         }
 
