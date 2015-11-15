@@ -47,9 +47,9 @@ namespace Reducto.Sample.Tests
 
             nav.Received().PushAsync<DeviceListPageViewModel>(Arg.Any<Func<DeviceListPageViewModel>>());
             Assert.That(history.FirstAction<LoggingIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = true }));
+                Is.EqualTo(new LoginPageStore { InProgress = true, ErrorMsg = "" }));
             Assert.That(history.FirstAction<LoggedIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = false, LoggedIn = true }));
+                Is.EqualTo(new LoginPageStore { InProgress = false, LoggedIn = true, ErrorMsg = "" }));
         }
 
         [Test]
@@ -58,11 +58,12 @@ namespace Reducto.Sample.Tests
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "sdf" }));
 
             Assert.That(history.FirstAction<LoggingIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = true }));
+                Is.EqualTo(new LoginPageStore { InProgress = true, ErrorMsg = "" }));
             Assert.That(history.FirstAction<LoginFailed>().LoginPage,
                 Is.EqualTo(new LoginPageStore {
                     InProgress = false,
                     LoggedIn = false,
+                    Error = true,
                     ErrorMsg = "Wrong username/password or user not found"
                 }));
         }
@@ -73,12 +74,38 @@ namespace Reducto.Sample.Tests
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "oh-noes" }));
 
             Assert.That(history.FirstAction<LoggingIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = true }));
+                Is.EqualTo(new LoginPageStore { InProgress = true, ErrorMsg = "" }));
             Assert.That(history.FirstAction<LoginServiceUnavailable>().LoginPage,
                 Is.EqualTo(new LoginPageStore {
                     InProgress = false,
                     LoggedIn = false,
+                    Error = true,
                     ErrorMsg = "Service currently unavailable, please try again later"
+                }));
+        }
+
+        [Test]
+        public async void should_clear_the_error_after_successful_retry_of_credentials()
+        {
+            await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "sdf" }));
+            await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "secret" }));
+
+            Assert.That(history.FirstAction<LoggedIn>().LoginPage,
+                Is.EqualTo(new LoginPageStore { InProgress = false, LoggedIn = true, ErrorMsg = "" }));
+        }
+
+        [Test]
+        public async void should_report_error_when_trying_wrong_credentials_after_successfully_logged_in()
+        {
+            await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "secret" }));
+            await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "sdf" }));
+
+            Assert.That(history.FirstAction<LoginFailed>().LoginPage,
+                Is.EqualTo(new LoginPageStore {
+                    InProgress = false,
+                    LoggedIn = false,
+                    Error = true,
+                    ErrorMsg = "Wrong username/password or user not found"
                 }));
         }
 

@@ -82,11 +82,15 @@ namespace Reducto.Sample
 
         static SimpleReducer<LoginPageStore> LoginPageReducer()
         {
-            return new SimpleReducer<LoginPageStore>().When<LoggingIn>((state, action) => {
+            return new SimpleReducer<LoginPageStore>( () => new LoginPageStore{ InProgress = false, ErrorMsg = "", LoggedIn = false, Error = false}).When<LoggingIn>((state, action) => {
                 state.InProgress = true;
+                state.LoggedIn = false;
+                state.Error = false;
+                state.ErrorMsg = "";
                 return state;
             }).When<LoginFailed>((state, action) => {
                 state.InProgress = false;
+                state.Error = true;
                 state.ErrorMsg = "Wrong username/password or user not found";
                 return state;
             }).When<LoggedIn>((state, action) => {
@@ -95,7 +99,7 @@ namespace Reducto.Sample
                 return state;
             }).When<LoginServiceUnavailable>((state, action) => {
                 state.InProgress = false;
-                state.LoggedIn = false;
+                state.Error = true;
                 state.ErrorMsg = "Service currently unavailable, please try again later";
                 return state;
             });

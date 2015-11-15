@@ -9,6 +9,7 @@ namespace Reducto.Sample
         public bool LoggedIn;
         public string Username;
         public string ErrorMsg;
+        public bool Error;
         public bool InProgress;
     }
 
