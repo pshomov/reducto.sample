@@ -46,10 +46,10 @@ namespace Reducto.Sample.Tests
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "secret" }));
 
             nav.Received().PushAsync<DeviceListPageViewModel>(Arg.Any<Func<DeviceListPageViewModel>>());
-            Assert.That(history.FirstAction<LoggingIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = true, ErrorMsg = "" }));
+            Assert.That(history.FirstAction<LoginStarted>().LoginPage,
+                Is.EqualTo(new LoginPageState { InProgress = true, ErrorMsg = "" }));
             Assert.That(history.FirstAction<LoggedIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = false, LoggedIn = true, ErrorMsg = "" }));
+                Is.EqualTo(new LoginPageState { InProgress = false, LoggedIn = true, ErrorMsg = "" }));
         }
 
         [Test]
@@ -57,10 +57,10 @@ namespace Reducto.Sample.Tests
         {
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "sdf" }));
 
-            Assert.That(history.FirstAction<LoggingIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = true, ErrorMsg = "" }));
+            Assert.That(history.FirstAction<LoginStarted>().LoginPage,
+                Is.EqualTo(new LoginPageState { InProgress = true, ErrorMsg = "" }));
             Assert.That(history.FirstAction<LoginFailed>().LoginPage,
-                Is.EqualTo(new LoginPageStore {
+                Is.EqualTo(new LoginPageState {
                     InProgress = false,
                     LoggedIn = false,
                     Error = true,
@@ -73,10 +73,10 @@ namespace Reducto.Sample.Tests
         {
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "oh-noes" }));
 
-            Assert.That(history.FirstAction<LoggingIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = true, ErrorMsg = "" }));
+            Assert.That(history.FirstAction<LoginStarted>().LoginPage,
+                Is.EqualTo(new LoginPageState { InProgress = true, ErrorMsg = "" }));
             Assert.That(history.FirstAction<LoginServiceUnavailable>().LoginPage,
-                Is.EqualTo(new LoginPageStore {
+                Is.EqualTo(new LoginPageState {
                     InProgress = false,
                     LoggedIn = false,
                     Error = true,
@@ -91,7 +91,7 @@ namespace Reducto.Sample.Tests
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "secret" }));
 
             Assert.That(history.FirstAction<LoggedIn>().LoginPage,
-                Is.EqualTo(new LoginPageStore { InProgress = false, LoggedIn = true, ErrorMsg = "" }));
+                Is.EqualTo(new LoginPageState { InProgress = false, LoggedIn = true, ErrorMsg = "" }));
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Reducto.Sample.Tests
             await store.Dispatch(app.LoginAction(new LoginInfo { Username = "john", Password = "sdf" }));
 
             Assert.That(history.FirstAction<LoginFailed>().LoginPage,
-                Is.EqualTo(new LoginPageStore {
+                Is.EqualTo(new LoginPageState {
                     InProgress = false,
                     LoggedIn = false,
                     Error = true,

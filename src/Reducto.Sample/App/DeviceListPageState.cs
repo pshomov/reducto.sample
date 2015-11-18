@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Reducto.Sample
 {
-    public struct LoginPageStore
+    public struct LoginPageState
     {
         public bool LoggedIn;
         public string Username;
@@ -13,7 +13,7 @@ namespace Reducto.Sample
         public bool InProgress;
     }
 
-    public struct DeviceListPageStore
+    public struct DeviceListPageState
     {
         public bool InProgress;
         public List<DeviceInfo> Devices;
@@ -23,8 +23,8 @@ namespace Reducto.Sample
 
     public struct AppState
     {
-        public LoginPageStore LoginPage;
-        public DeviceListPageStore DevicePage;
+        public LoginPageState LoginPage;
+        public DeviceListPageState DevicePage;
     }
 
 }

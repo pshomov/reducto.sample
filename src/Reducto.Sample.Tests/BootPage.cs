@@ -25,7 +25,7 @@ namespace Reducto.Sample.Tests
         [Test]
         public void should_navigate_to_device_list_viewmodel_when_logged_in()
         {
-            app.Store.Dispatch(new LoggingIn{ Username = "John" });
+            app.Store.Dispatch(new LoginStarted{ Username = "John" });
             app.Store.Dispatch(new LoggedIn{ Username = "John" });
             Assert.That(app.BootPage(), Is.TypeOf<DeviceListPageViewModel>());
         }

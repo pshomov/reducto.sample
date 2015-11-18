@@ -14,7 +14,7 @@ namespace Reducto.Sample
         public string Username;
     }
 
-    public struct LoggingIn
+    public struct LoginStarted
     {
         public string Username;
     }
@@ -80,9 +80,9 @@ namespace Reducto.Sample
             }
         }
 
-        static SimpleReducer<LoginPageStore> LoginPageReducer()
+        static SimpleReducer<LoginPageState> LoginPageReducer()
         {
-            return new SimpleReducer<LoginPageStore>( () => new LoginPageStore{ InProgress = false, ErrorMsg = "", LoggedIn = false, Error = false}).When<LoggingIn>((state, action) => {
+            return new SimpleReducer<LoginPageState>( () => new LoginPageState{ InProgress = false, ErrorMsg = "", LoggedIn = false, Error = false}).When<LoginStarted>((state, action) => {
                 state.InProgress = true;
                 state.LoggedIn = false;
                 state.Error = false;
@@ -105,9 +105,9 @@ namespace Reducto.Sample
             });
         }
 
-        static SimpleReducer<DeviceListPageStore> DeviceListReducer()
+        static SimpleReducer<DeviceListPageState> DeviceListReducer()
         {
-            return new SimpleReducer<DeviceListPageStore>(() => new DeviceListPageStore {
+            return new SimpleReducer<DeviceListPageState>(() => new DeviceListPageState {
                 Devices = new List<DeviceInfo>(),
                 Error = "",
                 SelectedDeviceIndex = -1,
@@ -136,7 +136,7 @@ namespace Reducto.Sample
             };
 
             LoginAction = Store.asyncActionVoid<LoginInfo>(async (dispatch, getState, userinfo) => {
-                dispatch(new LoggingIn { Username = userinfo.Username }); // starting the login process
+                dispatch(new LoginStarted { Username = userinfo.Username }); // starting the login process
                 UserInfo loggedIn;
                 try {
                     loggedIn = await serviceAPI.AuthUser(userinfo.Username, userinfo.Password);
