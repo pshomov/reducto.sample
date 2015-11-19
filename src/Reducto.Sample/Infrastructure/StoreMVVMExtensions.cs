@@ -20,7 +20,7 @@ namespace Reducto.Sample
             return new StoreActionCommand<State, T>(store, actionMaker);
         }
 
-        public static ICommand createAsyncActionCommand<State>(this Store<State> store, Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> actionMaker)
+        public static ICommand createAsyncActionCommand<State>(this Store<State> store, Func<Store<State>.AsyncAction> actionMaker)
         {
             return new StoreAsyncActionCommand<State>(store, actionMaker);
         }

@@ -57,8 +57,8 @@ namespace Reducto.Sample
 
     public class App
     {
-        public Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task> DeviceListRefreshAction;
-        public Func<LoginInfo, Func<DispatcherDelegate, Store<AppState>.GetStateDelegate, Task>> LoginAction;
+        public Store<AppState>.AsyncAction DeviceListRefreshAction;
+        public Store<AppState>.AsyncActionNeedsParam<LoginInfo> LoginAction;
 
         public Store<AppState> Store { get; private set; }
 
@@ -82,7 +82,12 @@ namespace Reducto.Sample
 
         static SimpleReducer<LoginPageState> LoginPageReducer()
         {
-            return new SimpleReducer<LoginPageState>( () => new LoginPageState{ InProgress = false, ErrorMsg = "", LoggedIn = false, Error = false}).When<LoginStarted>((state, action) => {
+            return new SimpleReducer<LoginPageState>( () => new LoginPageState { 
+                InProgress = false, 
+                ErrorMsg = "", 
+                LoggedIn = false, 
+                Error = false
+            }).When<LoginStarted>((state, action) => {
                 state.InProgress = true;
                 state.LoggedIn = false;
                 state.Error = false;
@@ -147,7 +152,10 @@ namespace Reducto.Sample
                 if (loggedIn == UserInfo.NotFound) {
                     dispatch(new LoginFailed()); // user/pass did not match
                 } else {
-                    dispatch(new LoggedIn { Username = userinfo.Username, City = loggedIn.HomeCity }); // success
+                    dispatch(new LoggedIn { 
+                        Username = userinfo.Username, 
+                        City = loggedIn.HomeCity 
+                    }); // success
                     nav.PushAsync(() => new DeviceListPageViewModel(this));
                     await DeviceListRefreshAction(dispatch, getState);
                 }

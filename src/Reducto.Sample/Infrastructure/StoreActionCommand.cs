@@ -61,9 +61,9 @@ namespace Reducto.Sample
     public class StoreAsyncActionCommand<State> : ICommand
     {
         Store<State> store;
-        Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action;
+        Func<Store<State>.AsyncAction> action;
 
-        public StoreAsyncActionCommand(Store<State> store, Func<Func<DispatcherDelegate, Store<State>.GetStateDelegate, Task>> action)
+        public StoreAsyncActionCommand(Store<State> store, Func<Store<State>.AsyncAction> action)
         {
             this.action = action;
             this.store = store;
