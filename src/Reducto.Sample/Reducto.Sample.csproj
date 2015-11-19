@@ -36,8 +36,6 @@
     <Compile Include="ViewModels\DeviceSummary.cs" />
     <Compile Include="Services\IServiceAPI.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
-    <Compile Include="Infrastructure\StoreActionCommand.cs" />
-    <Compile Include="Infrastructure\StoreMVVMExtensions.cs" />
     <Compile Include="App\DeviceInfo.cs" />
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -51,6 +49,7 @@
     <Compile Include="Infrastructure\Navigator.cs" />
     <Compile Include="App\LoginStarted.cs" />
     <Compile Include="App\DeviceListPageState.cs" />
+    <Compile Include="Infrastructure\CommandToAction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
